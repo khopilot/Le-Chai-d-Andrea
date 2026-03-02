@@ -10,7 +10,7 @@ import ChatBubble from "@/components/chat/ChatBubble";
 import { useModalStore, closeCart, openCheckout, closeCheckout, closeResa } from "@/lib/modal-store";
 
 export default function ClientShell({ children }: { children: React.ReactNode }) {
-  const { cartOpen, checkoutOpen, resaOpen } = useModalStore();
+  const { cartOpen, checkoutOpen, resaOpen, resaPreFill } = useModalStore();
   const anyModalOpen = cartOpen || checkoutOpen || resaOpen;
 
   // Global ESC handler — close topmost modal first
@@ -43,7 +43,7 @@ export default function ClientShell({ children }: { children: React.ReactNode })
       <Footer />
       <CartDrawer open={cartOpen} onClose={closeCart} onCheckout={openCheckout} />
       <CheckoutModal open={checkoutOpen} onClose={closeCheckout} />
-      <ReservationModal open={resaOpen} onClose={closeResa} />
+      <ReservationModal open={resaOpen} onClose={closeResa} preFill={resaPreFill} />
       <ChatBubble />
     </>
   );

@@ -77,7 +77,7 @@ export default function Footer() {
                 <li><Link href="/boutique" className="font-jost text-[0.72rem] text-pierre no-underline hover:text-or">Boutique</Link></li>
                 <li><Link href="/evenements" className="font-jost text-[0.72rem] text-pierre no-underline hover:text-or">&Eacute;v&eacute;nements</Link></li>
                 <li><Link href="/contact" className="font-jost text-[0.72rem] text-pierre no-underline hover:text-or">Contact</Link></li>
-                <li><button onClick={openResa} className="cursor-pointer border-none bg-transparent p-0 font-jost text-[0.72rem] text-pierre hover:text-or">R&eacute;server</button></li>
+                <li><button onClick={() => openResa()} className="cursor-pointer border-none bg-transparent p-0 font-jost text-[0.72rem] text-pierre hover:text-or">R&eacute;server</button></li>
               </ul>
             </div>
           </div>

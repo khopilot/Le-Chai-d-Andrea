@@ -34,7 +34,7 @@ export default function RestaurantMenu() {
               </h2>
             </div>
             <button
-              onClick={openResa}
+              onClick={() => openResa()}
               className="cursor-pointer border-none bg-or px-9 py-3.5 font-jost text-[0.62rem] uppercase tracking-[0.3em] text-noir transition-all hover:bg-or-p"
             >
               R&eacute;server &rarr;

@@ -23,7 +23,7 @@ export default function Hero() {
     <section id="hero" className="relative z-[2] flex min-h-screen items-center justify-center overflow-hidden">
       {/* Background image */}
       <img
-        src="/images/hero-cave.png"
+        src="/images/hero-home.png"
         alt=""
         className="absolute inset-0 h-full w-full object-cover"
       />
@@ -57,7 +57,7 @@ export default function Hero() {
 
         <div className="animate-fadeUp mt-10 flex flex-wrap justify-center gap-5 opacity-0 [animation-delay:1.4s] max-md:flex-col">
           <button
-            onClick={openResa}
+            onClick={() => openResa()}
             className="btn-primary inline-block cursor-pointer border-none bg-or px-9 py-3.5 font-jost text-[0.62rem] uppercase tracking-[0.3em] text-noir no-underline transition-all hover:-translate-y-0.5 hover:bg-or-p hover:shadow-[0_8px_30px_rgba(201,168,76,0.3)]"
           >
             R&eacute;server une table

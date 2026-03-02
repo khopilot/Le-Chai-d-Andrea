@@ -21,7 +21,7 @@ export default function BookingCTA() {
           </p>
 
           <button
-            onClick={openResa}
+            onClick={() => openResa()}
             className="cursor-pointer border-none bg-or px-10 py-3.5 font-jost text-[0.62rem] uppercase tracking-[0.3em] text-noir no-underline transition-all hover:-translate-y-0.5 hover:bg-or-p hover:shadow-[0_8px_30px_rgba(201,168,76,0.3)]"
           >
             R&eacute;server maintenant

@@ -120,7 +120,7 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           {/* Réserver */}
           <button
-            onClick={openResa}
+            onClick={() => openResa()}
             className="group/btn relative cursor-pointer overflow-hidden border border-or/30 bg-or px-6 py-2.5 font-jost text-[0.62rem] uppercase tracking-[0.25em] text-noir transition-all duration-300 hover:-translate-y-px hover:border-or hover:shadow-[0_4px_20px_rgba(201,168,76,0.25)] max-sm:hidden"
           >
             R&eacute;server

@@ -58,7 +58,7 @@ export default function EventsPreview() {
                   <p className="mb-5 font-jost text-[0.68rem] leading-[1.7] text-pierre">{ev.desc}</p>
                   {ev.linkAction === "resa" ? (
                     <button
-                      onClick={openResa}
+                      onClick={() => openResa()}
                       className="inline-flex cursor-pointer items-center gap-2 border-none bg-transparent font-jost text-[0.58rem] uppercase tracking-[0.3em] text-or no-underline transition-all hover:gap-4"
                     >
                       {ev.linkText} &rarr;

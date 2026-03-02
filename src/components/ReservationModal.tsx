@@ -2,13 +2,15 @@
 import { useState, useMemo, useEffect } from "react";
 import { MONTHS_FR, TIME_MIDI, TIME_SOIR, UNAVAIL_MIDI, UNAVAIL_SOIR } from "@/data/menu";
 import { showNotif } from "@/lib/notification";
+import type { ResaPreFill } from "@/lib/modal-store";
 
 interface ReservationModalProps {
   open: boolean;
   onClose: () => void;
+  preFill?: ResaPreFill | null;
 }
 
-export default function ReservationModal({ open, onClose }: ReservationModalProps) {
+export default function ReservationModal({ open, onClose, preFill }: ReservationModalProps) {
   const now = new Date();
   const [calYear, setCalYear] = useState(now.getFullYear());
   const [calMonth, setCalMonth] = useState(now.getMonth());
@@ -18,6 +20,53 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
   const [couverts, setCouverts] = useState("2 personnes");
   const [step, setStep] = useState(1);
   const [form, setForm] = useState({ fname: "", lname: "", email: "", phone: "", occasion: "", notes: "" });
+
+  // Pre-fill from chatbot data
+  useEffect(() => {
+    if (!open || !preFill) return;
+
+    if (preFill.date) {
+      setSelectedDate(preFill.date);
+      const d = new Date(preFill.date + "T12:00:00");
+      if (!isNaN(d.getTime())) {
+        setCalYear(d.getFullYear());
+        setCalMonth(d.getMonth());
+      }
+    }
+
+    if (preFill.service) {
+      setService(preFill.service);
+      const slots = preFill.service === "midi" ? TIME_MIDI : TIME_SOIR;
+      const blocked = preFill.service === "midi" ? UNAVAIL_MIDI : UNAVAIL_SOIR;
+      setSelectedTime(slots.find((t) => !blocked.includes(t)) ?? null);
+    }
+
+    if (preFill.couverts != null) {
+      const n = preFill.couverts;
+      setCouverts(n >= 8 ? "8+ personnes (nous contacter)" : n === 1 ? "1 personne" : `${n} personnes`);
+    }
+
+    if (preFill.date && preFill.service && preFill.couverts != null) {
+      setStep(2);
+    }
+  }, [open, preFill]);
+
+  // Reset state when modal closes
+  useEffect(() => {
+    if (open) return;
+    const timer = setTimeout(() => {
+      setSelectedDate(null);
+      setSelectedTime(null);
+      setService("midi");
+      setCouverts("2 personnes");
+      setStep(1);
+      setForm({ fname: "", lname: "", email: "", phone: "", occasion: "", notes: "" });
+      const now = new Date();
+      setCalYear(now.getFullYear());
+      setCalMonth(now.getMonth());
+    }, 350);
+    return () => clearTimeout(timer);
+  }, [open]);
 
   const calDays = useMemo(() => {
     const first = new Date(calYear, calMonth, 1).getDay();

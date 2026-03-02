@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useEffect, useState, type ReactNode } from "react";
 import { useChatStore, sendMessage, closeChat, resetChat } from "@/lib/chat-store";
-import { openResa } from "@/lib/modal-store";
+import { openResa, type ResaPreFill } from "@/lib/modal-store";
 import { openCart } from "@/lib/modal-store";
 import { addToCart } from "@/lib/cart-store";
 import { showNotif } from "@/lib/notification";
@@ -52,12 +52,29 @@ function PlusIcon() {
   );
 }
 
+/* ── Resa marker parser ── */
+
+function parseResaMarker(marker: string): ResaPreFill | null {
+  const colonIdx = marker.indexOf(":");
+  if (colonIdx === -1) return null;
+  const parts = marker.slice(colonIdx + 1).split("|");
+  if (parts.length < 3) return null;
+
+  const dateOk = /^\d{4}-\d{2}-\d{2}$/.test(parts[0]) && !isNaN(Date.parse(parts[0]));
+  const service = parts[1] === "midi" || parts[1] === "soir" ? parts[1] : null;
+  const n = parseInt(parts[2], 10);
+  const couverts = !isNaN(n) && n >= 1 && n <= 20 ? n : null;
+
+  if (!dateOk && !service && !couverts) return null;
+  return { date: dateOk ? parts[0] : null, service, couverts };
+}
+
 /* ── Action components ── */
 
-function ResaButton() {
+function ResaButton({ preFill }: { preFill?: ResaPreFill | null }) {
   return (
     <button
-      onClick={() => { closeChat(); openResa(); }}
+      onClick={() => { closeChat(); openResa(preFill ?? undefined); }}
       className="mt-2 inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition hover:brightness-110"
       style={{ background: "var(--color-or)", color: "var(--color-noir)" }}
     >
@@ -138,7 +155,7 @@ function ProductCard({ productId }: { productId: number }) {
 
 /* ── Rich content renderer ── */
 
-const MARKER_RE = /\[(RESA_BUTTON|NAV:\w+|PRODUCT:\d+|CART_BUTTON)\]/g;
+const MARKER_RE = /\[(RESA_BUTTON(?::[^\]]+)?|NAV:\w+|PRODUCT:\d+|CART_BUTTON)\]/g;
 
 function renderRichContent(content: string): ReactNode[] {
   const parts: ReactNode[] = [];
@@ -153,8 +170,9 @@ function renderRichContent(content: string): ReactNode[] {
     }
 
     const marker = match[1];
-    if (marker === "RESA_BUTTON") {
-      parts.push(<ResaButton key={`m-${match.index}`} />);
+    if (marker === "RESA_BUTTON" || marker.startsWith("RESA_BUTTON:")) {
+      const preFill = parseResaMarker(marker);
+      parts.push(<ResaButton key={`m-${match.index}`} preFill={preFill} />);
     } else if (marker === "CART_BUTTON") {
       parts.push(<CartButton key={`m-${match.index}`} />);
     } else if (marker.startsWith("NAV:")) {

@@ -1,13 +1,20 @@
 "use client";
 import { useSyncExternalStore } from "react";
 
+export interface ResaPreFill {
+  date: string | null;
+  service: "midi" | "soir" | null;
+  couverts: number | null;
+}
+
 interface ModalState {
   cartOpen: boolean;
   checkoutOpen: boolean;
   resaOpen: boolean;
+  resaPreFill: ResaPreFill | null;
 }
 
-let state: ModalState = { cartOpen: false, checkoutOpen: false, resaOpen: false };
+let state: ModalState = { cartOpen: false, checkoutOpen: false, resaOpen: false, resaPreFill: null };
 let listeners: (() => void)[] = [];
 
 function emit() {
@@ -49,12 +56,12 @@ export function closeCheckout() {
   emit();
 }
 
-export function openResa() {
-  state = { ...state, resaOpen: true };
+export function openResa(preFill?: ResaPreFill) {
+  state = { ...state, resaOpen: true, resaPreFill: preFill ?? null };
   emit();
 }
 
 export function closeResa() {
-  state = { ...state, resaOpen: false };
+  state = { ...state, resaOpen: false, resaPreFill: null };
   emit();
 }
