@@ -14,7 +14,7 @@ export default function BoutiquePage() {
         label="L'Annexe du Chai — Boutique en ligne"
         title={<>Nos <em className="italic text-or">Sélections</em></>}
         subtitle="Cave à vins, épicerie fine, spiritueux et coffrets cadeaux. Expédition mondiale."
-        backgroundImage="/images/hero-cave.png"
+        backgroundImage="/images/hero-boutique.png"
       />
       <Boutique />
     </>

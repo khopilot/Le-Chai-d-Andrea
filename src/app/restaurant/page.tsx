@@ -14,7 +14,7 @@ export default function RestaurantPage() {
         label="La Table"
         title={<>Notre <em className="italic text-or">Carte</em></>}
         subtitle="Cuisine du terroir revisitée, produits locaux de saison."
-        backgroundImage="/images/restaurant-ambiance.png"
+        backgroundImage="/images/hero-restaurant.png"
       />
       <RestaurantMenu />
     </>

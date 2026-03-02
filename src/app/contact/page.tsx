@@ -14,6 +14,7 @@ export default function ContactPage() {
         label="Nous trouver"
         title={<>Venez nous <em className="italic text-or">rendre visite</em></>}
         subtitle="Restaurant, cave à vins et épicerie fine à Fontevraud-l'Abbaye."
+        backgroundImage="/images/hero-contact.png"
       />
       <Contact />
     </>
