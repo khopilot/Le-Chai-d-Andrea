@@ -156,8 +156,7 @@ export default function Navbar() {
       </nav>
 
       {/* ── Mobile fullscreen overlay ── */}
-      {menuOpen && (
-        <div className="fixed inset-0 z-[490] flex flex-col items-center justify-center bg-noir/[0.98]">
+      <div className={`fixed inset-0 z-[490] flex flex-col items-center justify-center bg-noir/[0.98] transition-all duration-500 ${menuOpen ? "visible opacity-100" : "invisible opacity-0"}`}>
           {/* Logo at top */}
           <div className="absolute top-20 flex flex-col items-center">
             <span className="font-cinzel text-sm tracking-[0.12em] text-or">Le Chai d&apos;Andrea</span>
@@ -220,12 +219,11 @@ export default function Navbar() {
             className="animate-fadeUp absolute bottom-10 flex flex-col items-center gap-2 opacity-0"
             style={{ animationDelay: `${(NAV_LINKS.length + 1) * 70}ms`, animationFillMode: "forwards" }}
           >
-            <span className="font-jost text-[0.6rem] uppercase tracking-[0.25em] text-or/40">
+            <a href="tel:+85563964271" className="font-jost text-[0.6rem] uppercase tracking-[0.25em] text-or/40 no-underline transition-colors hover:text-or">
               +855 63 964 271
-            </span>
+            </a>
           </div>
         </div>
-      )}
     </>
   );
 }

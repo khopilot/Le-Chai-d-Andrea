@@ -8,7 +8,7 @@
   --color-or-p: #e8d5a3;
   --color-creme: #f5efe6;
   --color-parchemin: #ede3d3;
-  --color-pierre: #8a7968;
+  --color-pierre: #a39282;
   --color-text: #2a1f14;
   --color-text-l: #6b5744;
   --color-success: #2d6a4f;
@@ -73,12 +73,21 @@
   .nav-link-luxury.active::after { transform: scaleX(1); }
 
   /* ═══ REVEAL ON SCROLL ═══ */
-  .reveal { opacity: 0; transform: translateY(25px); transition: opacity 0.8s, transform 0.8s; }
+  .reveal { opacity: 0; transform: translateY(25px); transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
   .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-stagger > *:nth-child(1) { transition-delay: 0s; }
+  .reveal-stagger > *:nth-child(2) { transition-delay: 0.1s; }
+  .reveal-stagger > *:nth-child(3) { transition-delay: 0.2s; }
+  .reveal-stagger > *:nth-child(4) { transition-delay: 0.3s; }
+  .reveal-stagger > *:nth-child(5) { transition-delay: 0.4s; }
+  .reveal-stagger > *:nth-child(6) { transition-delay: 0.5s; }
 
   /* ═══ HIDE SCROLLBAR ═══ */
   .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
   .scrollbar-none::-webkit-scrollbar { display: none; }
+
+  /* ═══ FIREFOX SCROLLBAR ═══ */
+  * { scrollbar-width: thin; scrollbar-color: rgba(201,168,76,0.3) transparent; }
 
   /* ═══ CUSTOM SCROLLBAR ═══ */
   .custom-scrollbar::-webkit-scrollbar { width: 4px; }
@@ -103,5 +112,24 @@
   }
   .f-select { appearance: none; cursor: pointer; }
   .f-textarea { resize: vertical; min-height: 90px; }
-  .f-input.error { border-color: var(--color-error); }
+  .f-input.error { border-color: var(--color-error); background: rgba(192,57,43,0.05); }
+  .f-input::placeholder, .f-textarea::placeholder { color: rgba(163,146,130,0.5); }
+  .f-label { font-family: var(--font-jost); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.25em; color: var(--color-pierre); }
+
+  /* ═══ FOCUS STATES ═══ */
+  button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--color-or);
+    outline-offset: 2px;
+  }
+
+  /* ═══ BUTTON PRESS ═══ */
+  button:active:not(:disabled) { transform: scale(0.97); }
+
+  /* ═══ MODAL TRANSITIONS ═══ */
+  .modal-backdrop { transition: opacity 0.3s ease; }
+  .modal-content { transition: opacity 0.3s ease, transform 0.3s ease; }
+  .modal-enter { opacity: 0; }
+  .modal-enter .modal-content { opacity: 0; transform: scale(0.97); }
+  .modal-active { opacity: 1; }
+  .modal-active .modal-content { opacity: 1; transform: scale(1); }
 }

@@ -23,8 +23,8 @@ export default function RestaurantMenu() {
   const [activeTab, setActiveTab] = useState("formules");
 
   return (
-    <section id="restaurant" className="relative z-[2] bg-[linear-gradient(to_right,rgba(92,26,26,0.07)_0%,transparent_40%),#0a0807]">
-      <div className="mx-auto max-w-[1300px] px-12 py-[100px] max-md:px-6">
+    <section id="restaurant" className="relative z-[2] flex min-h-screen items-center bg-[linear-gradient(to_right,rgba(92,26,26,0.07)_0%,transparent_40%),#0a0807]">
+      <div className="w-full px-12 py-[100px] max-md:px-6 xl:px-24 2xl:px-40">
         <RevealSection>
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
@@ -50,7 +50,7 @@ export default function RestaurantMenu() {
                 key={key}
                 onClick={() => setActiveTab(key)}
                 className={`relative shrink-0 cursor-pointer border-none bg-transparent px-[1.4rem] py-[0.8rem] font-jost text-[0.62rem] uppercase tracking-[0.25em] transition-colors ${
-                  activeTab === key ? "text-or" : "text-pierre"
+                  activeTab === key ? "text-or" : "text-pierre hover:text-or-p"
                 }`}
               >
                 {label}
@@ -67,7 +67,7 @@ export default function RestaurantMenu() {
               {FORMULES.map((f) => (
                 <div
                   key={f.name}
-                  className={`relative border p-8 transition-all hover:-translate-y-1 ${
+                  className={`relative border p-8 transition-all hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(201,168,76,0.1)] ${
                     f.featured ? "border-or bg-or/[0.04]" : "border-or/20 hover:border-or"
                   }`}
                 >
@@ -95,7 +95,7 @@ export default function RestaurantMenu() {
                     {cat.title}
                   </div>
                   {cat.items.map((item) => (
-                    <div key={item.name} className="flex items-baseline justify-between border-b border-white/5 py-3 last:border-none">
+                    <div key={item.name} className="flex items-baseline justify-between border-b border-white/5 py-3 transition-colors hover:bg-white/[0.02] last:border-none">
                       <div>
                         <span className="mb-0.5 block font-cormorant text-[0.95rem] font-medium text-creme">{item.name}</span>
                         <span className="font-jost text-[0.65rem] leading-[1.5] text-text-l">{item.desc}</span>

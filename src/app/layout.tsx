@@ -28,6 +28,19 @@ const jost = Jost({
 export const metadata: Metadata = {
   title: "Le Chai d'Andrea — Restaurant, Cave & Épicerie Fine",
   description: "Un lieu d'exception où la gastronomie rencontre l'art de la vigne. Restaurant gastronomique, cave à vins et épicerie fine à Fontevraud-l'Abbaye.",
+  openGraph: {
+    title: "Le Chai d'Andrea — Restaurant, Cave & Épicerie Fine",
+    description: "Un lieu d'exception où la gastronomie rencontre l'art de la vigne. Restaurant gastronomique, cave à vins et épicerie fine.",
+    images: [{ url: "/images/og-image.png", width: 1792, height: 1024, alt: "Le Chai d'Andrea" }],
+    locale: "fr_FR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Le Chai d'Andrea — Restaurant, Cave & Épicerie Fine",
+    description: "Un lieu d'exception où la gastronomie rencontre l'art de la vigne.",
+    images: ["/images/og-image.png"],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

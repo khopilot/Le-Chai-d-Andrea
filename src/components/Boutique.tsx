@@ -7,12 +7,12 @@ import { showNotif } from "@/lib/notification";
 import RevealSection from "./RevealSection";
 
 const FILTERS = [
-  { key: "all", label: "Tout voir", icon: "" },
-  { key: "vin", label: "\u{1F377} Vins", icon: "" },
-  { key: "spiritueux", label: "\u{1F943} Spiritueux", icon: "" },
-  { key: "epicerie", label: "\u{1FAD9} \u00C9picerie", icon: "" },
-  { key: "coffret", label: "\u{1F381} Coffrets", icon: "" },
-  { key: "fromage", label: "\u{1F9C0} Fromagerie", icon: "" },
+  { key: "all", label: "Tout voir" },
+  { key: "vin", label: "Vins" },
+  { key: "spiritueux", label: "Spiritueux" },
+  { key: "epicerie", label: "Épicerie" },
+  { key: "coffret", label: "Coffrets" },
+  { key: "fromage", label: "Fromagerie" },
 ];
 
 export default function Boutique() {
@@ -23,12 +23,12 @@ export default function Boutique() {
     const prod = PRODUCTS.find((p) => p.id === id);
     if (!prod) return;
     addToCart(prod);
-    showNotif("\u{1F6D2}", "Ajout\u00E9 au panier", prod.name + " a \u00E9t\u00E9 ajout\u00E9 \u00E0 votre panier");
+    showNotif("+", "Ajouté au panier", prod.name + " a été ajouté à votre panier");
   };
 
   return (
-    <section id="boutique" className="relative z-[2] bg-[#0f0b08]">
-      <div className="mx-auto max-w-[1300px] px-12 py-[100px] max-md:px-6">
+    <section id="boutique" className="relative z-[2] flex min-h-screen items-center bg-[#0f0b08]">
+      <div className="w-full px-12 py-[100px] max-md:px-6 xl:px-24 2xl:px-40">
         <RevealSection>
           <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
             <div>
@@ -62,7 +62,7 @@ export default function Boutique() {
             {items.map((p) => (
               <div
                 key={p.id}
-                className="group relative cursor-pointer overflow-hidden border border-or/10 bg-white/[0.02] transition-all duration-400 hover:-translate-y-1 hover:border-or/35 hover:bg-white/[0.04]"
+                className="group relative cursor-pointer overflow-hidden border border-or/10 bg-white/[0.02] transition-all duration-400 hover:-translate-y-1 hover:border-or/35 hover:bg-white/[0.04] hover:shadow-[0_8px_24px_rgba(201,168,76,0.1)]"
               >
                 {p.badge && (
                   <div className={`absolute left-4 top-4 z-[1] px-[0.7rem] py-[0.3rem] font-jost text-[0.5rem] uppercase tracking-[0.3em] ${
@@ -72,7 +72,12 @@ export default function Boutique() {
                   </div>
                 )}
                 <div className="relative flex h-[200px] items-center justify-center overflow-hidden bg-[linear-gradient(135deg,rgba(26,15,10,0.8),rgba(42,24,16,0.8))]">
-                  <span className="relative z-[1] text-[4rem]">{p.icon}</span>
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                    className="relative z-[1] h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.05]"
+                    loading="lazy"
+                  />
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-noir/60" />
                 </div>
                 <div className="p-5">

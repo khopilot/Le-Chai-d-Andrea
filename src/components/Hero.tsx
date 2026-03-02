@@ -12,7 +12,7 @@ export default function Hero() {
       const el = contentRef.current;
       if (el && y < window.innerHeight) {
         el.style.transform = `translateY(${y * 0.25}px)`;
-        el.style.opacity = String(1 - (y / window.innerHeight) * 1.5);
+        el.style.opacity = String(Math.max(0, 1 - (y / window.innerHeight) * 1.5));
       }
     };
     window.addEventListener("scroll", handleScroll);
@@ -21,10 +21,16 @@ export default function Hero() {
 
   return (
     <section id="hero" className="relative z-[2] flex min-h-screen items-center justify-center overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_50%,rgba(92,26,26,0.4)_0%,transparent_60%),radial-gradient(ellipse_at_80%_20%,rgba(201,168,76,0.08)_0%,transparent_50%),linear-gradient(160deg,#0d0a07_0%,#1a0f0a_40%,#0f0b08_100%)]" />
+      {/* Background image */}
+      <img
+        src="/images/hero-cave.png"
+        alt=""
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+      {/* Gradient overlay on top of image */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_50%,rgba(92,26,26,0.4)_0%,transparent_60%),radial-gradient(ellipse_at_80%_20%,rgba(201,168,76,0.08)_0%,transparent_50%),linear-gradient(160deg,rgba(13,10,7,0.65)_0%,rgba(26,15,10,0.6)_40%,rgba(15,11,8,0.7)_100%)]" />
 
-      <div ref={contentRef} className="relative z-[2] flex flex-col items-center text-center">
+      <div ref={contentRef} className="relative z-[2] flex flex-col items-center text-center will-change-transform">
         <span className="animate-fadeUp font-jost text-[0.62rem] uppercase tracking-[0.5em] text-or opacity-0 [animation-delay:0.3s]">
           Restaurant &middot; Cave &agrave; Vin &middot; &Eacute;picerie Fine &middot; Livraison mondiale
         </span>
@@ -66,9 +72,9 @@ export default function Hero() {
 
         <div className="animate-fadeUp mt-12 flex flex-wrap justify-center gap-8 max-md:gap-4 opacity-0 [animation-delay:1.6s]">
           {[
-            { icon: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z", text: "Paiement s\u00E9curis\u00E9 SSL" },
+            { icon: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z", text: "Paiement sécurisé SSL" },
             { icon: "M12 6v6l4 2", circle: true, text: "Livraison 48h France" },
-            { icon: "M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-10 2a2 2 0 100 4 2 2 0 000-4z", text: "Exp\u00E9dition mondiale" },
+            { icon: "M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-10 2a2 2 0 100 4 2 2 0 000-4z", text: "Expédition mondiale" },
           ].map(({ text }, i) => (
             <div key={i} className="flex items-center gap-2 font-jost text-[0.6rem] uppercase tracking-[0.15em] text-pierre">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-or">
@@ -77,7 +83,7 @@ export default function Hero() {
                     <circle cx="12" cy="12" r="10" />
                     <polyline points="12 6 12 12 16 14" />
                   </>
-                ) : text === "Paiement s\u00E9curis\u00E9 SSL" ? (
+                ) : text === "Paiement sécurisé SSL" ? (
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                 ) : (
                   <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-10 2a2 2 0 100 4 2 2 0 000-4z" />

@@ -5,8 +5,8 @@ import RevealSection from "@/components/RevealSection";
 
 export default function ContactStrip() {
   return (
-    <section className="relative z-[2] bg-[linear-gradient(160deg,#0d0a07,#110d09)]">
-      <div className="mx-auto max-w-[1300px] px-12 py-16 max-md:px-6">
+    <section className="relative z-[2] flex min-h-screen items-center bg-[linear-gradient(160deg,#0d0a07,#110d09)]">
+      <div className="w-full px-12 py-16 max-md:px-6 xl:px-24 2xl:px-40">
         <RevealSection>
           <div className="flex flex-wrap items-center justify-between gap-10 border-t border-or/15 pt-16 max-md:flex-col max-md:text-center">
             <div className="flex flex-wrap gap-12 max-md:flex-col max-md:gap-6">

@@ -3,15 +3,20 @@ import RevealSection from "./RevealSection";
 
 export default function About() {
   return (
-    <section id="about" className="relative z-[2] bg-[linear-gradient(160deg,#0d0a07,#110d09_50%,#0d0a07)]">
-      <div className="mx-auto max-w-[1300px] px-12 py-[100px] max-md:px-6">
+    <section id="about" className="relative z-[2] flex min-h-screen items-center bg-[linear-gradient(160deg,#0d0a07,#110d09_50%,#0d0a07)]">
+      <div className="w-full px-12 py-[100px] max-md:px-6 xl:px-24 2xl:px-40">
         <RevealSection>
           <div className="grid grid-cols-2 items-center gap-28 max-lg:grid-cols-1">
-            {/* Image placeholder */}
+            {/* Image */}
             <div className="relative max-lg:hidden">
-              <div className="relative w-full overflow-hidden bg-[linear-gradient(135deg,#1a0f0a,#2a1810)]" style={{ paddingBottom: "115%" }}>
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_40%_60%,rgba(92,26,26,0.3)_0%,transparent_60%)]" />
-                <div className="absolute inset-0 flex items-center justify-center text-[8rem] opacity-[0.06]">{"\u{1F377}"}</div>
+              <div className="relative w-full overflow-hidden" style={{ paddingBottom: "115%" }}>
+                <img
+                  src="/images/about-cave.png"
+                  alt="Cave à vins du Chai d'Andrea"
+                  className="absolute inset-0 h-full w-full object-cover"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(13,10,7,0.2),rgba(13,10,7,0.1)),radial-gradient(ellipse_at_40%_60%,rgba(92,26,26,0.15)_0%,transparent_60%)]" />
               </div>
               <div className="absolute -right-[15px] -top-[15px] h-full w-full border border-or/25 pointer-events-none" />
               <div className="absolute -bottom-6 -left-6 font-cormorant text-[6rem] font-semibold leading-none text-bordeaux opacity-30">2024</div>
@@ -36,7 +41,7 @@ export default function About() {
                   { t: "Terroir", d: "Producteurs locaux sélectionnés, respect des saisons." },
                   { t: "Cave", d: "Plus de 200 références sélectionnées par notre sommelier." },
                   { t: "Livraison", d: "Expédition sécurisée dans 50+ pays à travers le monde." },
-                  { t: "\u00C9vénements", d: "Privatisation, séminaires, dégustations sur mesure." },
+                  { t: "Événements", d: "Privatisation, séminaires, dégustations sur mesure." },
                 ].map(({ t, d }) => (
                   <div key={t} className="border-l-2 border-or/30 pl-3.5">
                     <span className="mb-1 block font-cinzel text-[0.68rem] tracking-[0.15em] text-or">{t}</span>

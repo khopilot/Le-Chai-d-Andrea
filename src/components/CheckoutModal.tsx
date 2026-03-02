@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   useCartStore, cartTotal, formatPrice, getShippingZone, getShippingPrice,
   setSelectedShipping, setDiscount, resetCart, setPayMethod,
@@ -33,13 +33,13 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
         const required = ["fname", "lname", "email", "addr1", "zip", "city"] as const;
         for (const f of required) {
           if (!form[f].trim()) {
-            showNotif("\u26A0\uFE0F", "Champ manquant", f + " est requis");
+            showNotif("!", "Champ manquant", f + " est requis");
             return;
           }
         }
       }
       if (step === 2 && !selectedShipping) {
-        showNotif("\u26A0\uFE0F", "Transport requis", "Veuillez s\u00E9lectionner un mode d\u2019exp\u00E9dition");
+        showNotif("!", "Transport requis", "Veuillez s\u00E9lectionner un mode d\u2019exp\u00E9dition");
         return;
       }
     }
@@ -58,10 +58,10 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
 
   const processPayment = () => {
     if (currentPayMethod === "card") {
-      if (cardForm.num.replace(/\s/g, "").length < 16) { showNotif("\u26A0\uFE0F", "Erreur", "Num\u00E9ro de carte invalide"); return; }
-      if (!cardForm.holder) { showNotif("\u26A0\uFE0F", "Erreur", "Titulaire requis"); return; }
-      if (cardForm.exp.length < 5) { showNotif("\u26A0\uFE0F", "Erreur", "Date d\u2019expiration invalide"); return; }
-      if (cardForm.cvv.length < 3) { showNotif("\u26A0\uFE0F", "Erreur", "CVV invalide"); return; }
+      if (cardForm.num.replace(/\s/g, "").length < 16) { showNotif("!", "Erreur", "Num\u00E9ro de carte invalide"); return; }
+      if (!cardForm.holder) { showNotif("!", "Erreur", "Titulaire requis"); return; }
+      if (cardForm.exp.length < 5) { showNotif("!", "Erreur", "Date d\u2019expiration invalide"); return; }
+      if (cardForm.cvv.length < 3) { showNotif("!", "Erreur", "CVV invalide"); return; }
     }
     const num = "CHA" + Date.now().toString().slice(-6);
     setOrderNum(num);
@@ -107,13 +107,19 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
     </div>
   );
 
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    if (open) requestAnimationFrame(() => setVisible(true));
+    else setVisible(false);
+  }, [open]);
+
   if (!open) return null;
 
   return (
     <>
-      <div className="fixed inset-0 z-[1001] bg-black/85 backdrop-blur-[5px]" onClick={onClose} />
+      <div className={`fixed inset-0 z-[1001] bg-black/85 backdrop-blur-[5px] transition-opacity duration-300 ${visible ? "opacity-100" : "opacity-0"}`} onClick={onClose} />
       <div className="fixed inset-0 z-[1002] flex items-center justify-center p-4">
-        <div className="custom-scrollbar max-h-[92vh] w-full max-w-[820px] overflow-y-auto border border-or/25 bg-[#120d09]" onClick={(e) => e.stopPropagation()}>
+        <div className={`custom-scrollbar max-h-[92vh] w-full max-w-[820px] overflow-y-auto border border-or/25 bg-[#120d09] transition-all duration-300 ${visible ? "scale-100 opacity-100" : "scale-[0.97] opacity-0"}`} onClick={(e) => e.stopPropagation()}>
           {/* Header */}
           <div className="sticky top-0 z-[1] flex items-center justify-between border-b border-or/15 bg-[#120d09] px-10 py-8">
             <span className="font-cinzel text-base tracking-[0.15em] text-or">Finaliser la commande</span>
@@ -252,20 +258,22 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
                 <span className="mb-5 block border-b border-or/[0.12] pb-2.5 font-cinzel text-[0.78rem] tracking-[0.15em] text-or-p">Mode de paiement</span>
                 <div className="mb-8 grid grid-cols-3 gap-4 max-md:grid-cols-2">
                   {[
-                    { key: "card", icon: "\u{1F4B3}", name: "Carte bancaire", sub: "Visa \u2022 Mastercard \u2022 Amex" },
-                    { key: "paypal", icon: "\u{1F17F}\uFE0F", name: "PayPal", sub: "Paiement s\u00E9curis\u00E9" },
-                    { key: "apple", icon: "\uF8FF", name: "Apple Pay", sub: "Paiement rapide" },
-                    { key: "gpay", icon: "G", name: "Google Pay", sub: "Paiement rapide" },
-                    { key: "virement", icon: "\u{1F3E6}", name: "Virement bancaire", sub: "SEPA / International" },
-                    { key: "cheque", icon: "\u{1F4CB}", name: "Ch\u00E8que", sub: "\u00C0 l\u2019ordre de SCI Andrea" },
+                    { key: "card", icon: "M3 3h18v18H3z M7 7h10 M7 11h10 M7 15h6", name: "Carte bancaire", sub: "Visa \u2022 Mastercard \u2022 Amex" },
+                    { key: "paypal", icon: "M7 21l2-8H3l10-10-2 8h6L7 21z", name: "PayPal", sub: "Paiement s\u00E9curis\u00E9" },
+                    { key: "apple", icon: "M12 2a10 10 0 110 20 10 10 0 010-20z M8 12h8 M12 8v8", name: "Apple Pay", sub: "Paiement rapide" },
+                    { key: "gpay", icon: "M12 2a10 10 0 110 20 10 10 0 010-20z M8 12h8 M12 8v8", name: "Google Pay", sub: "Paiement rapide" },
+                    { key: "virement", icon: "M3 21h18 M3 10h18 M5 6l7-3 7 3", name: "Virement bancaire", sub: "SEPA / International" },
+                    { key: "cheque", icon: "M9 11l3 3 8-8 M21 12a9 9 0 11-18 0 9 9 0 0118 0z", name: "Ch\u00E8que", sub: "\u00C0 l\u2019ordre de SCI Andrea" },
                   ].map(({ key, icon, name, sub }) => (
                     <div
                       key={key}
                       onClick={() => setPayMethod(key)}
                       className={`relative cursor-pointer border p-5 text-center transition-all ${currentPayMethod === key ? "border-or bg-or/[0.06]" : "border-or/20 hover:border-or hover:bg-or/[0.06]"}`}
                     >
-                      {currentPayMethod === key && <span className="absolute right-3 top-2 text-[0.7rem] text-or">✓</span>}
-                      <span className="mb-2 block text-[1.6rem]">{icon}</span>
+                      {currentPayMethod === key && <span className="absolute right-3 top-2 text-[0.7rem] text-or">{"\u2713"}</span>}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-2 h-7 w-7 text-or">
+                        <path d={icon} />
+                      </svg>
                       <span className="mb-0.5 block font-jost text-[0.62rem] uppercase tracking-[0.15em] text-creme">{name}</span>
                       <span className="font-jost text-[0.55rem] text-pierre">{sub}</span>
                     </div>
@@ -317,7 +325,7 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
 
                 {currentPayMethod === "paypal" && (
                   <div className="mb-6 border border-[rgba(0,48,135,0.3)] bg-[rgba(0,48,135,0.15)] p-8 text-center">
-                    <div className="mb-3 text-[2rem]">{"\u{1F17F}\uFE0F"}</div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="mx-auto mb-3 h-8 w-8 text-or"><path d="M7 21l2-8H3l10-10-2 8h6L7 21z" /></svg>
                     <p className="mb-2 font-jost text-[0.78rem] text-creme">Vous serez redirigé vers PayPal</p>
                     <p className="font-jost text-[0.65rem] text-pierre">Connectez-vous à votre compte PayPal pour finaliser votre paiement.</p>
                   </div>
@@ -357,7 +365,7 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
 
                 <div className="flex justify-between gap-4">
                   <button onClick={() => goStep(2, true)} className="cursor-pointer border border-or/25 bg-transparent px-8 py-3.5 font-jost text-[0.6rem] uppercase tracking-[0.25em] text-or transition-all hover:border-or hover:bg-or/[0.06]">&larr; Retour</button>
-                  <button onClick={processPayment} className="flex-1 cursor-pointer border-none bg-or px-8 py-3.5 font-jost text-[0.6rem] uppercase tracking-[0.25em] text-noir transition-all hover:-translate-y-px hover:bg-or-p">{"\u{1F512}"} Payer maintenant</button>
+                  <button onClick={processPayment} className="flex-1 cursor-pointer border-none bg-or px-8 py-3.5 font-jost text-[0.6rem] uppercase tracking-[0.25em] text-noir transition-all hover:-translate-y-px hover:bg-or-p">Payer maintenant</button>
                 </div>
               </div>
             )}

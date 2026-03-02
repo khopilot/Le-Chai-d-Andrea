@@ -4,7 +4,7 @@ import ServicesGrid from "@/components/home/ServicesGrid";
 import RestaurantPreview from "@/components/home/RestaurantPreview";
 import BoutiquePreview from "@/components/home/BoutiquePreview";
 import EventsPreview from "@/components/home/EventsPreview";
-import ContactStrip from "@/components/home/ContactStrip";
+import BookingCTA from "@/components/home/BookingCTA";
 
 export default function Home() {
   return (
@@ -15,7 +15,7 @@ export default function Home() {
       <RestaurantPreview />
       <BoutiquePreview />
       <EventsPreview />
-      <ContactStrip />
+      <BookingCTA />
     </>
   );
 }

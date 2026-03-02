@@ -116,6 +116,7 @@ export const EVENTS = [
     desc: "Menu d\u00E9gustation 6 services en duo, accord vins doux naturels. Sur r\u00E9servation uniquement.",
     linkText: "R\u00E9server",
     linkAction: "resa",
+    image: "/images/event-valentine.png",
   },
   {
     day: "08",
@@ -126,6 +127,7 @@ export const EVENTS = [
     desc: "8 grands crus comment\u00E9s par notre sommelier, plateau de fromages affin\u00E9s. 20 places max.",
     linkText: "S\u2019inscrire",
     linkAction: "contact",
+    image: "/images/event-degustation.png",
   },
   {
     day: "22",
@@ -136,6 +138,7 @@ export const EVENTS = [
     desc: "Rencontrez nos vignerons et producteurs partenaires. D\u00E9gustation, vente directe. Entr\u00E9e libre.",
     linkText: "En savoir plus",
     linkAction: "contact",
+    image: "/images/event-marche.png",
   },
 ];
 

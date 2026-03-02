@@ -1,6 +1,7 @@
 "use client";
 import { useCartStore, updateQty, removeFromCart, cartTotal, formatPrice } from "@/lib/cart-store";
 import { CAT_LABELS } from "@/data/products";
+import { ShoppingBag, CategoryIcon } from "@/components/ui/Icons";
 
 interface CartDrawerProps {
   open: boolean;
@@ -28,14 +29,16 @@ export default function CartDrawer({ open, onClose, onCheckout }: CartDrawerProp
         <div className="custom-scrollbar flex flex-1 flex-col gap-4 overflow-y-auto p-6">
           {cart.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center gap-4 text-pierre">
-              <span className="text-[3rem] opacity-30">{"\u{1F6D2}"}</span>
+              <ShoppingBag className="h-12 w-12 text-pierre opacity-30" />
               <p className="font-cormorant text-[1.1rem] italic">Votre panier est vide</p>
               <span className="font-jost text-[0.65rem] tracking-[0.15em]">Parcourez notre boutique</span>
             </div>
           ) : (
             cart.map((item) => (
               <div key={item.id} className="flex gap-4 border border-or/10 bg-white/[0.03] p-4">
-                <div className="flex h-[60px] w-[60px] shrink-0 items-center justify-center bg-white/[0.04] text-[1.8rem]">{item.icon}</div>
+                <div className="flex h-[60px] w-[60px] shrink-0 items-center justify-center bg-white/[0.04]">
+                  <CategoryIcon cat={item.cat} className="h-8 w-8 text-or" />
+                </div>
                 <div className="flex-1">
                   <span className="mb-0.5 block font-cormorant text-[0.95rem] text-creme">{item.name}</span>
                   <span className="mb-2 block font-jost text-[0.58rem] uppercase tracking-[0.2em] text-or opacity-70">
@@ -74,7 +77,7 @@ export default function CartDrawer({ open, onClose, onCheckout }: CartDrawerProp
               Continuer mes achats
             </button>
             <div className="mt-4 flex flex-wrap justify-center gap-2">
-              {["\u{1F4B3} Carte", "\u{1F17F}\uFE0F PayPal", "\uF8FF Apple Pay", "G Pay", "Virement"].map((p) => (
+              {["Carte", "PayPal", "Apple Pay", "Google Pay", "Virement"].map((p) => (
                 <span key={p} className="border border-white/10 bg-white/[0.06] px-2.5 py-1 font-jost text-[0.5rem] tracking-[0.1em] text-pierre">{p}</span>
               ))}
             </div>

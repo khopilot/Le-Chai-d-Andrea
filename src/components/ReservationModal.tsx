@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { MONTHS_FR, TIME_MIDI, TIME_SOIR, UNAVAIL_MIDI, UNAVAIL_SOIR } from "@/data/menu";
 import { showNotif } from "@/lib/notification";
 
@@ -50,12 +50,12 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
   const goResaStep = (n: number, force = false) => {
     if (!force && n > step) {
       if (step === 1) {
-        if (!selectedDate) { showNotif("\u26A0\uFE0F", "Date requise", "Veuillez s\u00E9lectionner une date"); return; }
-        if (!selectedTime) { showNotif("\u26A0\uFE0F", "Heure requise", "Veuillez s\u00E9lectionner un cr\u00E9neau horaire"); return; }
+        if (!selectedDate) { showNotif("!", "Date requise", "Veuillez s\u00E9lectionner une date"); return; }
+        if (!selectedTime) { showNotif("!", "Heure requise", "Veuillez s\u00E9lectionner un cr\u00E9neau horaire"); return; }
       }
       if (step === 2) {
         if (!form.fname || !form.lname || !form.email || !form.phone) {
-          showNotif("\u26A0\uFE0F", "Champs manquants", "Tous les champs requis doivent \u00EAtre remplis");
+          showNotif("!", "Champs manquants", "Tous les champs requis doivent \u00EAtre remplis");
           return;
         }
       }
@@ -64,19 +64,25 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
   };
 
   const confirmResa = () => {
-    if (!form.fname || !form.email) { showNotif("\u26A0\uFE0F", "Champs requis", "Veuillez remplir tous les champs obligatoires"); return; }
+    if (!form.fname || !form.email) { showNotif("!", "Champs requis", "Veuillez remplir tous les champs obligatoires"); return; }
     const refNum = "RES" + Date.now().toString().slice(-5);
     goResaStep(3, true);
-    showNotif("\u{1F37D}\uFE0F", "R\u00E9servation confirm\u00E9e !", "Table r\u00E9serv\u00E9e le " + dateDisplay + " \u00E0 " + selectedTime);
+    showNotif("\u2713", "R\u00E9servation confirm\u00E9e !", "Table r\u00E9serv\u00E9e le " + dateDisplay + " \u00E0 " + selectedTime);
   };
+
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    if (open) requestAnimationFrame(() => setVisible(true));
+    else setVisible(false);
+  }, [open]);
 
   if (!open) return null;
 
   return (
     <>
-      <div className="fixed inset-0 z-[1001] bg-black/85 backdrop-blur-[5px]" onClick={onClose} />
+      <div className={`fixed inset-0 z-[1001] bg-black/85 backdrop-blur-[5px] transition-opacity duration-300 ${visible ? "opacity-100" : "opacity-0"}`} onClick={onClose} />
       <div className="fixed inset-0 z-[1002] flex items-center justify-center p-4">
-        <div className="custom-scrollbar max-h-[92vh] w-full max-w-[820px] overflow-y-auto border border-or/25 bg-[#120d09]" onClick={(e) => e.stopPropagation()}>
+        <div className={`custom-scrollbar max-h-[92vh] w-full max-w-[820px] overflow-y-auto border border-or/25 bg-[#120d09] transition-all duration-300 ${visible ? "scale-100 opacity-100" : "scale-[0.97] opacity-0"}`} onClick={(e) => e.stopPropagation()}>
           <div className="sticky top-0 z-[1] flex items-center justify-between border-b border-or/15 bg-[#120d09] px-10 py-8">
             <span className="font-cinzel text-base tracking-[0.15em] text-or">Réserver une table</span>
             <button onClick={onClose} className="flex h-9 w-9 cursor-pointer items-center justify-center border border-or/30 bg-transparent text-[1.1rem] text-or hover:border-bordeaux hover:bg-bordeaux">✕</button>
@@ -221,10 +227,10 @@ export default function ReservationModal({ open, onClose }: ReservationModalProp
                   <label className="font-jost text-[0.58rem] uppercase tracking-[0.25em] text-pierre">Occasion spéciale</label>
                   <select className="f-select" value={form.occasion} onChange={(e) => setForm({ ...form, occasion: e.target.value })}>
                     <option value="">Aucune</option>
-                    <option>Anniversaire {"\u{1F382}"}</option>
-                    <option>Repas romantique {"\u{1F339}"}</option>
-                    <option>Réunion d&apos;affaires {"\u{1F4BC}"}</option>
-                    <option>Repas de famille {"\u{1F468}\u200D\u{1F469}\u200D\u{1F467}\u200D\u{1F466}"}</option>
+                    <option>Anniversaire</option>
+                    <option>Repas romantique</option>
+                    <option>R&eacute;union d&apos;affaires</option>
+                    <option>Repas de famille</option>
                     <option>Autre occasion</option>
                   </select>
                 </div>

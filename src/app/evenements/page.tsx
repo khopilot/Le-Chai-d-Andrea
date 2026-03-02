@@ -14,6 +14,7 @@ export default function EvenementsPage() {
         label="Agenda"
         title={<>Nos <em className="italic text-or">Événements</em></>}
         subtitle="Dégustations, privatisations, séminaires et soirées thématiques."
+        backgroundImage="/images/hero-cave.png"
       />
       <Events />
     </>
